@@ -1,32 +1,57 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import phonebookService from './services/phonebook';
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
 
+  useEffect(() => {
+    phonebookService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
+    });
+  }, []);
+
   const addPerson = (event) => {
     event.preventDefault();
-    if (persons.some((person) => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`);
-      return;
+    const existingPerson = persons.find((person) => person.name === newName);
+
+    if (existingPerson) {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const changedPerson = { ...existingPerson, number: newNumber };
+        phonebookService
+          .changePerson(existingPerson.id, changedPerson)
+          .then((returnedPerson) => {
+            setPersons(persons.map((person) => (person.id !== existingPerson.id ? person : returnedPerson)));
+            setNewName('');
+            setNewNumber('');
+          });
+      }
+    } else {
+      phonebookService
+        .addPerson({
+          name: newName,
+          number: newNumber,
+        })
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setNewName('');
+          setNewNumber('');
+        });
     }
-    const personObject = {
-      name: newName,
-      number: newNumber,
-    };
-    setPersons(persons.concat(personObject));
-    setNewName('');
-    setNewNumber('');
+  };
+
+  const handleDelete = (id) => {
+    const person = persons.find((person) => person.id === id);
+    if (window.confirm(`Delete ${person.name}?`)) {
+      phonebookService.deletePerson(id).then(() => {
+        setPersons(persons.filter((person) => person.id !== id));
+      });
+    }
   };
 
   const handlePersonChange = (event) => {
@@ -58,7 +83,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} handleDelete={handleDelete} />
     </div>
   );
 };
