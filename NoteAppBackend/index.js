@@ -19,8 +19,6 @@ let notes = [
   }
 ]
 
-app.use(express.static('dist'))
-
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)
@@ -28,10 +26,6 @@ const requestLogger = (request, response, next) => {
   console.log('---')
   next()
 }
-
-const cors = require('cors')
-
-app.use(cors())
 
 app.use(express.json())
 app.use(requestLogger)
@@ -95,7 +89,7 @@ app.delete('/api/notes/:id', (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = process.env.PORT || 3001
+const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
