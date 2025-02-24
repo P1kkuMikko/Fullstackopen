@@ -66,7 +66,7 @@ const App = () => {
           showNotification(`Added ${newName}`, 'success');
         })
         .catch((error) => {
-          showNotification(`Error adding ${newName}`, 'error');
+          showNotification(error.response.data.error, 'error');
         });
     }
   };
