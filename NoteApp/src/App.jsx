@@ -38,7 +38,7 @@ const App = () => {
       .then((returnedNote) => {
         setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)))
       })
-      .catch((error) => {
+      .catch(() => {
         setErrorMessage(
           `Note '${note.content}' was already removed from server`
         )
@@ -65,7 +65,7 @@ const App = () => {
         </button>
       </div>
       <ul>
-        {Array.isArray(notesToShow) && notesToShow.map((note) => (
+        {notesToShow.map((note) => (
           <Note
             key={note.id}
             note={note}
