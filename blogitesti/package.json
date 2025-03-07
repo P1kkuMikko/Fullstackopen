@@ -1,0 +1,21 @@
+{
+  "name": "blogitesti",
+  "version": "1.0.0",
+  "description": "A simple blog list application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "watch": "nodemon index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^8.12.1"
+  },
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.8",
+    "nodemon": "^3.1.9"
+  },
+  "author": "",
+  "license": "ISC"
+}
