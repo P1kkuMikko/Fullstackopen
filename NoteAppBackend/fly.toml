@@ -1,18 +1,18 @@
-# fly.toml app configuration file generated for noteappbackend on 2025-02-21T08:10:15+02:00
+# fly.toml app configuration file generated for noteappbackend on 2025-03-08T13:05:03+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "noteappbackend"
+app = 'noteappbackend'
 primary_region = 'fra'
 
 [build]
 
 [env]
-  PORT = "3001"
+  PORT = "3002"
 
 [http_service]
-  internal_port = 3001
+  internal_port = 3002
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true

@@ -5,6 +5,7 @@ const getBlogs = () => {
   return JSON.parse(data).blogs
 }
 
+
 const totalLikes = (blogs) => {
   return blogs.reduce((sum, blog) => sum + blog.likes, 0)
 }
@@ -55,7 +56,6 @@ const mostLikes = (blogs) => {
 
 module.exports = {
   getBlogs,
-  dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
