@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const config = require('./utils/config')
-const Note = require('./models/note') // Import the Note model
+const Note = require('./models/note')
 
 if (!config.MONGODB_URI) {
   console.log('MONGODB_URI not defined in .env file')
